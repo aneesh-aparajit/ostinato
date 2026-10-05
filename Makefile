@@ -6,7 +6,7 @@ RESET  := \033[0m
 
 build:
 	@printf "$(ORANGE)building ostinato...$(RESET)\n"
-	@go build -o bin/ostinato
+	@CGO_ENABLED=0 go build -o bin/ostinato
 
 run: build
 	@printf "$(GREEN)running ostinato...$(RESET)\n"
