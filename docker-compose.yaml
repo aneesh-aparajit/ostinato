@@ -1,0 +1,23 @@
+name: ostinato
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ostinato
+    networks:
+      - app_network
+  ostinato-backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1337:1337"
+    depends_on:
+      - postgres
+
+networks:
+  app_network:
+    driver: bridge
