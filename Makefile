@@ -11,3 +11,9 @@ build:
 run: build
 	@printf "$(GREEN)running ostinato...$(RESET)\n"
 	@./bin/ostinato
+
+init-migrations:
+	@migrate create -ext sql -dir ./pkg/adapters/pgx/migrations  -seq init-schema
+
+sql-generate:
+	@sqlc generate

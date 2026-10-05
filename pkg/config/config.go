@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/aneesh-aparajit/ostinato/pkg/adapters/postgres"
 	"github.com/aneesh-aparajit/ostinato/pkg/logger"
 	"github.com/spf13/viper"
 )
@@ -11,8 +12,9 @@ import (
 const DefaultPath = "resources/properties.yaml"
 
 type Config struct {
-	App    string        `mapstructure:"app"`
-	Logger logger.Config `mapstructure:"logger"`
+	App      string          `mapstructure:"app"`
+	Logger   logger.Config   `mapstructure:"logger"`
+	Postgres postgres.Config `mapstructure:"postgres"`
 }
 
 func Load(path string) (Config, error) {
