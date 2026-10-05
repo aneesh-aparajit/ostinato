@@ -1,3 +1,5 @@
+app: ostinato
+
 logger:
   level: debug
   format: console

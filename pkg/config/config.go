@@ -11,6 +11,7 @@ import (
 const DefaultPath = "resources/properties.yaml"
 
 type Config struct {
+	App    string        `mapstructure:"app"`
 	Logger logger.Config `mapstructure:"logger"`
 }
 

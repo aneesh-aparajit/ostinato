@@ -16,17 +16,17 @@ func main() {
 
 	cfg, err := config.Load(*configPath)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "orbit:", err)
+		fmt.Fprintln(os.Stderr, cfg.App, err)
 		os.Exit(1)
 	}
 
 	log, err := logger.New(cfg.Logger)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "orbit:", err)
+		fmt.Fprintln(os.Stderr, cfg.App, err)
 		os.Exit(1)
 	}
 	defer logger.Sync(log)
 	zap.ReplaceGlobals(log)
 
-	log.Info("orbit starting", zap.String("config", *configPath))
+	log.Info(fmt.Sprintf("%v starting", cfg.App), zap.String("config", *configPath))
 }
