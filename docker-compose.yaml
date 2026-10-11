@@ -9,6 +9,8 @@ services:
       - POSTGRES_DB=ostinato
     networks:
       - app_network
+    ports:
+      - "5432:5432"
   ostinato-backend:
     build: 
       context: .

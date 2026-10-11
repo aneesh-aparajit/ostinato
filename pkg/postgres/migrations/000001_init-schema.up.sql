@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "tasks"
 (
     id          uuid,
     name        text        not null,
-    executionJS text        not null,
+    execution_js text        not null,
     created_at  timestamptz not null default now(),
     updated_at  timestamptz not null default now(),
     primary key (id)

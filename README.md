@@ -12,7 +12,7 @@ A Postgres-backed job scheduler written in Go. Supports one-off tasks and cron s
 
 ```bash
 docker compose up -d postgres
-migrate -path pkg/adapters/postgres/migrations -database "postgres://postgres:postgres@localhost:5432/ostinato?sslmode=disable" up
+migrate -path pkg/postgres/migrations -database "postgres://postgres:postgres@localhost:5432/ostinato?sslmode=disable" up
 make run
 ```
 

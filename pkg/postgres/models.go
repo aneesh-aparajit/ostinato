@@ -29,7 +29,7 @@ type Job struct {
 type Task struct {
 	ID          pgtype.UUID
 	Name        string
-	Executionjs string
+	ExecutionJs string
 	CreatedAt   pgtype.Timestamptz
 	UpdatedAt   pgtype.Timestamptz
 }
