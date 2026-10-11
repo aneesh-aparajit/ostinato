@@ -10,7 +10,7 @@ import (
 )
 
 const getAllTasks = `-- name: GetAllTasks :many
-SELECT id, schedule_id, run_type, handler, payload, run_at, status, timeout_ms, attempts, output, error, created_at, started_at, finished_at FROM tasks
+SELECT id, name, executionjs, created_at, updated_at FROM tasks
 `
 
 func (q *Queries) GetAllTasks(ctx context.Context) ([]Task, error) {
@@ -24,19 +24,10 @@ func (q *Queries) GetAllTasks(ctx context.Context) ([]Task, error) {
 		var i Task
 		if err := rows.Scan(
 			&i.ID,
-			&i.ScheduleID,
-			&i.RunType,
-			&i.Handler,
-			&i.Payload,
-			&i.RunAt,
-			&i.Status,
-			&i.TimeoutMs,
-			&i.Attempts,
-			&i.Output,
-			&i.Error,
+			&i.Name,
+			&i.Executionjs,
 			&i.CreatedAt,
-			&i.StartedAt,
-			&i.FinishedAt,
+			&i.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}

@@ -13,7 +13,7 @@ run: build
 	@./bin/ostinato
 
 init-migrations:
-	@migrate create -ext sql -dir ./pkg/adapters/pgx/migrations  -seq init-schema
+	@migrate create -ext sql -dir ./pkg/postgres/migrations  -seq init-schema
 
 sql-generate:
 	@sqlc generate
