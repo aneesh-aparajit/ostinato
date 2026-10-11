@@ -400,7 +400,7 @@ WHERE schedule_id = @schedule_id AND status IN ('SCHEDULED', 'QUEUED');
 ```
 
 ```sql
--- internal/adapters/postgres/queries/schedules.sql
+-- internal/adapters/postgres/queries/jobs.sql
 
 -- name: GetScheduleForUpdate :one
 SELECT * FROM schedules WHERE id = @id FOR UPDATE;
@@ -543,7 +543,7 @@ Ostinato/
 │       ├── http/                    # router, DTOs, error → status mapping
 │       ├── postgres/
 │       │   ├── migrations/          # goose migrations, also the schema sqlc compiles against
-│       │   ├── queries/             # tasks.sql, schedules.sql (sqlc input)
+│       │   ├── queries/             # tasks.sql, jobs.sql (sqlc input)
 │       │   ├── gen/                 # sqlc output: committed, never edited by hand
 │       │   ├── sqlc.yaml
 │       │   ├── task_store.go        # core.TaskStore: gen types ↔ core types, error mapping

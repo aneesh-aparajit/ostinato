@@ -29,4 +29,5 @@ func main() {
 	zap.ReplaceGlobals(log)
 
 	log.Info(fmt.Sprintf("%v starting", cfg.App), zap.String("config", *configPath))
+	fmt.Println(cfg)
 }

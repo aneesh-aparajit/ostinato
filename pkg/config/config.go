@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aneesh-aparajit/ostinato/pkg/adapters/postgres"
 	"github.com/aneesh-aparajit/ostinato/pkg/logger"
+	"github.com/aneesh-aparajit/ostinato/pkg/postgres"
 	"github.com/spf13/viper"
 )
 
