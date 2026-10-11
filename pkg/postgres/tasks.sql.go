@@ -7,10 +7,57 @@ package postgres
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const createTask = `-- name: CreateTask :one
+insert into tasks (id, name, execution_js, created_at, updated_at)
+values ($1, $2, $3, $4, $5)
+returning id, name, execution_js, created_at, updated_at
+`
+
+type CreateTaskParams struct {
+	ID          pgtype.UUID
+	Name        string
+	ExecutionJs string
+	CreatedAt   pgtype.Timestamptz
+	UpdatedAt   pgtype.Timestamptz
+}
+
+func (q *Queries) CreateTask(ctx context.Context, arg CreateTaskParams) (Task, error) {
+	row := q.db.QueryRow(ctx, createTask,
+		arg.ID,
+		arg.Name,
+		arg.ExecutionJs,
+		arg.CreatedAt,
+		arg.UpdatedAt,
+	)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.ExecutionJs,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const deleteById = `-- name: DeleteById :exec
+delete
+from tasks
+where id = $1
+`
+
+func (q *Queries) DeleteById(ctx context.Context, id pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteById, id)
+	return err
+}
+
 const getAllTasks = `-- name: GetAllTasks :many
-SELECT id, name, executionjs, created_at, updated_at FROM tasks
+SELECT id, name, execution_js, created_at, updated_at
+FROM tasks
 `
 
 func (q *Queries) GetAllTasks(ctx context.Context) ([]Task, error) {
@@ -25,7 +72,7 @@ func (q *Queries) GetAllTasks(ctx context.Context) ([]Task, error) {
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
-			&i.Executionjs,
+			&i.ExecutionJs,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -37,4 +84,50 @@ func (q *Queries) GetAllTasks(ctx context.Context) ([]Task, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const getTaskById = `-- name: GetTaskById :one
+select id, name, execution_js, created_at, updated_at
+from tasks
+where id = $1
+`
+
+func (q *Queries) GetTaskById(ctx context.Context, id pgtype.UUID) (Task, error) {
+	row := q.db.QueryRow(ctx, getTaskById, id)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.ExecutionJs,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const updateTask = `-- name: UpdateTask :one
+update tasks
+set name         = $2,
+    execution_js = $3
+where id = $1
+returning id, name, execution_js, created_at, updated_at
+`
+
+type UpdateTaskParams struct {
+	ID          pgtype.UUID
+	Name        string
+	ExecutionJs string
+}
+
+func (q *Queries) UpdateTask(ctx context.Context, arg UpdateTaskParams) (Task, error) {
+	row := q.db.QueryRow(ctx, updateTask, arg.ID, arg.Name, arg.ExecutionJs)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.ExecutionJs,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
 }
